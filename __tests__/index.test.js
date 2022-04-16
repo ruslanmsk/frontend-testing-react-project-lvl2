@@ -88,22 +88,22 @@ describe('lists', () => {
     await userEvent.type(input, listName);
     expect(input).toHaveValue(listName);
 
-    const button = screen.getByRole("button", { name: /add list/i });
+    const button = screen.getByRole('button', { name: /add list/i });
     await userEvent.click(button);
     expect(await screen.findByText(/list1/i)).toBeInTheDocument();
   });
 
   test('delete list', async () => {
-    const list = screen.getByRole("button", { name: /secondary/i })
+    const list = screen.getByRole('button', { name: /secondary/i });
     await userEvent.click(list);
-    const input = screen.getByRole("textbox", { name: /new task/i });
+    const input = screen.getByRole('textbox', { name: /new task/i });
     await userEvent.type(input, 'task1');
 
     const button = screen.getAllByRole('button', { name: /add/i })[1];
     await userEvent.click(button);
     expect(await screen.findByText(/task1/i)).toBeInTheDocument();
 
-    const deleteButton = screen.getByRole("button", { name: /remove list/i });
+    const deleteButton = screen.getByRole('button', { name: /remove list/i });
     await userEvent.click(deleteButton);
     await waitFor(() => {
       expect(list).not.toBeInTheDocument();
