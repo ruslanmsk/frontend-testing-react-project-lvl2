@@ -27,7 +27,7 @@ afterEach(() => {
   server.close();
 });
 
-describe('test', () => {
+describe('tasks', () => {
   test('app started', async () => {
     expect(await screen.getByText('Hexlet Todos')).toBeInTheDocument();
     expect(await screen.getByRole('heading', { name: /lists/i })).toBeInTheDocument();
@@ -78,5 +78,36 @@ describe('test', () => {
     await waitFor(() => {
       expect(checkbox).toBeChecked();
     });
+  });
+});
+
+describe('lists', () => {
+  test('create list', async () => {
+    const listName = 'list1';
+    const input = screen.getByRole('textbox', { name: /new list/i });
+    await userEvent.type(input, listName);
+    expect(input).toHaveValue(listName);
+
+    const button = screen.getByRole("button", { name: /add list/i });
+    await userEvent.click(button);
+    expect(await screen.findByText(/list1/i)).toBeInTheDocument();
+  });
+
+  test('delete list', async () => {
+    const list = screen.getByRole("button", { name: /secondary/i })
+    await userEvent.click(list);
+    const input = screen.getByRole("textbox", { name: /new task/i });
+    await userEvent.type(input, 'task1');
+
+    const button = screen.getAllByRole('button', { name: /add/i })[1];
+    await userEvent.click(button);
+    expect(await screen.findByText(/task1/i)).toBeInTheDocument();
+
+    const deleteButton = screen.getByRole("button", { name: /remove list/i });
+    await userEvent.click(deleteButton);
+    await waitFor(() => {
+      expect(list).not.toBeInTheDocument();
+    });
+    expect(screen.queryByText(/secondary list task/i)).not.toBeInTheDocument();
   });
 });

@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-const handlers = [
+const taskHandlers = [
   // create task
   rest.post('/api/v1/lists/:listId/tasks', (req, res, ctx) => {
     const { listId } = req.params;
@@ -25,4 +25,16 @@ const handlers = [
   }),
 ];
 
-export default handlers;
+const listHandlers = [
+  // create list
+  rest.post('/api/v1/lists', (req, res, ctx) => {
+    const { name } = req.body;
+    return res(
+      ctx.json({ name, removable: true, id: 4 }),
+    );
+  }),
+  // delete list
+  rest.delete('/api/v1/lists/:listId', (req, res, ctx) => res(ctx.status(200))),
+];
+
+export default [...taskHandlers, ...listHandlers];

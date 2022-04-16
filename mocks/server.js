@@ -1,5 +1,5 @@
 import { setupServer } from 'msw/node';
-import handlers from './handlers';
+import taskHandlers from './handlers';
 
-const server = setupServer(...handlers);
+const server = setupServer(...taskHandlers);
 export default server;
