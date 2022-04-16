@@ -12,7 +12,7 @@ const handlers = [
     );
   }),
   // delete task
-  rest.get('/api/v1/tasks/:taskId', (req, res, ctx) => res(ctx.status(200))),
+  rest.delete('/api/v1/tasks/:taskId', (req, res, ctx) => res(ctx.status(200))),
   // patch task
   rest.patch('/api/v1/tasks/:taskId', (req, res, ctx) => {
     const { taskId } = req.params;
