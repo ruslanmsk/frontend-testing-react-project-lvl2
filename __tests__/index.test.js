@@ -4,49 +4,43 @@ import '@testing-library/jest-dom';
 import { screen, render, waitFor } from '@testing-library/react';
 import { server } from '../mocks/server.js';
 
-beforeAll(() => server.listen({
-  onUnhandledRequest: 'warn',
-}));
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
-
-const state = {
-  lists: [
-    { id: 1, name: 'primary', removable: false },
-  ],
-  tasks: [],
-  currentListId: 1,
-};
-
-// let user;
-
 beforeEach(async () => {
+  const state = {
+    lists: [
+      { id: 1, name: 'primary', removable: false },
+      { id: 2, name: 'secondary', removable: true },
+    ],
+    tasks: [],
+    currentListId: 1,
+  };
 
-//   console.log(debug())
+  server.listen({
+    onUnhandledRequest: 'warn',
+  });
+  const vdom = await start(state);
+
+  render(vdom);
+});
+
+afterEach(() => {
+  server.resetHandlers();
+  server.close();
 });
 
 describe('test', () => {
   test('app started', async () => {
-    const app = await start(state);
-    render(app);
     expect(await screen.getByText('Hexlet Todos')).toBeInTheDocument();
     expect(await screen.getByRole('heading', { name: /lists/i })).toBeInTheDocument();
     expect(await screen.getByRole('heading', { name: /tasks/i })).toBeInTheDocument();
   });
 
   test('create task', async () => {
-    const user = userEvent.setup();
-
-    const app = await start(state);
-    render(app);
     const input = screen.getByRole('textbox', { name: /new task/i });
-    await user.type(input, 'task1');
+    await userEvent.type(input, 'task1');
     expect(input).toHaveValue('task1');
 
     const button = screen.getAllByRole('button', { name: /add/i })[1];
-    await user.click(button);
-    waitFor(() => {
-      expect(screen.getByRole('textbox', { name: /new task/i })).toHaveValue('');
-    });
+    await userEvent.click(button);
+    expect(await screen.findByText(/task1/i)).toBeInTheDocument();
   });
 });

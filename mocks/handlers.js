@@ -10,7 +10,7 @@ const handlers = [
     const { text } = req.body;
     return res(
       ctx.json({
-        text, listId, id: 4, completed: false, touched: 1649792281363,
+        text, listId: Number(listId), id: 4, completed: false, touched: 1649792281363,
       }),
     );
   }),
