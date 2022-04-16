@@ -4,7 +4,7 @@
   "description": "testing todo app",
   "scripts": {
     "start": "npx @hexlet/react-todo-app-with-backend",
-    "test": "jest"
+    "test": "jest --silent"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@testing-library/dom": "^8.13.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^14.1.0",
