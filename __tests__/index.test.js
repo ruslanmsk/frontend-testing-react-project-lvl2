@@ -1,8 +1,8 @@
 import start from '@hexlet/react-todo-app-with-backend';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import { screen, render, waitFor } from '@testing-library/react';
-import { server } from '../mocks/server.js';
+import { screen, render } from '@testing-library/react';
+import server from '../mocks/server.js';
 
 beforeEach(async () => {
   const state = {

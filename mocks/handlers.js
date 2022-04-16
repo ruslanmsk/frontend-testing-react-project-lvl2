@@ -1,8 +1,5 @@
 import { rest } from 'msw';
 
-
-// const state = {};
-
 const handlers = [
   // create task
   rest.post('/api/v1/lists/:listId/tasks', (req, res, ctx) => {
